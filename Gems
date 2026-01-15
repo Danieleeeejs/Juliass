@@ -1,0 +1,62 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- Create the Sidebar Window
+local Window = Rayfield:CreateWindow({
+   Name = "Samadxx on discord",
+   LoadingTitle = "Menu Loading...",
+   LoadingSubtitle = "by Gemini",
+   ConfigurationSaving = { Enabled = false }
+})
+
+local MainTab = Window:CreateTab("Main", 4483362458)
+
+-- Function to create the "Paper Note" GUI
+local function ShowAdminGift()
+    local PlayerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    
+    -- Main Container
+    local ScreenGui = Instance.new("ScreenGui", PlayerGui)
+    local Frame = Instance.new("ImageLabel", ScreenGui)
+    Frame.Size = UDim2.new(0, 400, 0, 250)
+    Frame.Position = UDim2.new(0.5, -200, 0.5, -125)
+    Frame.Image = "rbxassetid://6015525546" -- Paper texture
+    Frame.BackgroundTransparency = 1
+    
+    -- Text: "An Adopt Me admin gave you..."
+    local TextLabel = Instance.new("TextLabel", Frame)
+    TextLabel.Size = UDim2.new(1, 0, 0.4, 0)
+    TextLabel.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+    TextLabel.TextColor3 = Color3.fromRGB(180, 80, 120) -- Pinkish color from image
+    TextLabel.Font = Enum.Font.Handwritten
+    TextLabel.TextSize = 25
+    TextLabel.BackgroundTransparency = 1
+
+    -- Okay Button
+    local Button = Instance.new("TextButton", Frame)
+    Button.Size = UDim2.new(0.8, 0, 0.2, 0)
+    Button.Position = UDim2.new(0.1, 0, 0.7, 0)
+    Button.BackgroundColor3 = Color3.fromRGB(100, 200, 100) -- Green
+    Button.Text = "Okay!"
+    Button.TextColor3 = Color3.new(1, 1, 1)
+    
+    Button.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+end
+
+-- Sidebar Buttons
+MainTab:CreateButton({
+   Name = "Get Dragon",
+   Callback = function()
+       ShowAdminGift()
+   end,
+})
+
+MainTab:CreateButton({
+   Name = "Pick Another Pet",
+   Callback = function()
+       print("Pet picker opened")
+   end,
+})
+
+MainTab:CreateParagraph({Title = "Status", Content = "Waiting for input..."})
