@@ -1,0 +1,91 @@
+-- Adopt Me Admin Gift Popup (UI Replica)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Delay to ensure PlayerGui is ready
+task.wait(1)
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "AdoptMeAdminPopup"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = playerGui
+
+-- Dark background overlay
+local overlay = Instance.new("Frame")
+overlay.Size = UDim2.new(1, 0, 1, 0)
+overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+overlay.BackgroundTransparency = 0.45
+overlay.Parent = gui
+
+-- Main popup frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 420, 0, 230)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(255, 247, 225)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 20)
+
+-- Text label (same wording + style)
+local text = Instance.new("TextLabel")
+text.Size = UDim2.new(1, -40, 0, 90)
+text.Position = UDim2.new(0, 20, 0, 18)
+text.BackgroundTransparency = 1
+text.TextWrapped = true
+text.TextScaled = true
+text.TextXAlignment = Enum.TextXAlignment.Center
+text.TextYAlignment = Enum.TextYAlignment.Center
+text.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+text.Font = Enum.Font.GothamBold
+text.TextColor3 = Color3.fromRGB(255, 120, 190)
+text.Parent = frame
+
+-- Pet image (centered like photo)
+local petImage = Instance.new("ImageLabel")
+petImage.Size = UDim2.new(0, 96, 0, 96)
+petImage.Position = UDim2.new(0.5, 0, 0.6, 0)
+petImage.AnchorPoint = Vector2.new(0.5, 0.5)
+petImage.BackgroundTransparency = 1
+petImage.Image = "rbxassetid://7076078876" -- visual only
+petImage.Parent = frame
+
+-- Okay button
+local okButton = Instance.new("TextButton")
+okButton.Size = UDim2.new(0.6, 0, 0, 46)
+okButton.Position = UDim2.new(0.2, 0, 1, -60)
+okButton.BackgroundColor3 = Color3.fromRGB(85, 210, 130)
+okButton.Text = "Okay!"
+okButton.TextScaled = true
+okButton.Font = Enum.Font.GothamBold
+okButton.TextColor3 = Color3.new(1, 1, 1)
+okButton.Parent = frame
+
+Instance.new("UICorner", okButton).CornerRadius = UDim.new(0, 16)
+
+-- Pop-in animation (same feel as Adopt Me)
+frame.Size = UDim2.new(0, 0, 0, 0)
+TweenService:Create(
+	frame,
+	TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Size = UDim2.new(0, 420, 0, 230)}
+):Play()
+
+-- Close behavior
+okButton.MouseButton1Click:Connect(function()
+	TweenService:Create(
+		frame,
+		TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+		{Size = UDim2.new(0, 0, 0, 0)}
+	):Play()
+
+	task.wait(0.25)
+	gui:Destroy()
+end)
