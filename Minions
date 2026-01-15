@@ -1,0 +1,58 @@
+-- Adopt Me Paper Note Base GUI (with extra bottom lines)
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "PaperNoteBase"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = playerGui
+
+-- Paper frame
+local paper = Instance.new("Frame")
+paper.Size = UDim2.new(0, 520, 0, 260)
+paper.Position = UDim2.new(0.5, 0, 0.5, 0)
+paper.AnchorPoint = Vector2.new(0.5, 0.5)
+paper.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+paper.BorderSizePixel = 0
+paper.Parent = gui
+
+Instance.new("UICorner", paper).CornerRadius = UDim.new(0, 18)
+
+-- Subtle outline
+local paperStroke = Instance.new("UIStroke")
+paperStroke.Color = Color3.fromRGB(220, 220, 220)
+paperStroke.Thickness = 1
+paperStroke.Parent = paper
+
+-- 📘 Blue paper lines
+local lineSpacing = 26
+local totalLines = 9 -- increased from 7 to 9
+
+for i = 1, totalLines do
+	local line = Instance.new("Frame")
+	line.Size = UDim2.new(0.94, 0, 0, 2)
+	line.Position = UDim2.new(0.03, 0, 0, (i * lineSpacing))
+	line.BackgroundColor3 = Color3.fromRGB(185, 220, 235)
+	line.BorderSizePixel = 0
+	line.Parent = paper
+end
+
+-- 🔴 Red pin (top-left)
+local redPin = Instance.new("ImageLabel")
+redPin.Size = UDim2.new(0, 42, 0, 42)
+redPin.Position = UDim2.new(0, -12, 0, -12)
+redPin.BackgroundTransparency = 1
+redPin.Image = "rbxassetid://13460079106"
+redPin.Parent = paper
+
+-- 🟢 Green pin (bottom-right)
+local greenPin = Instance.new("ImageLabel")
+greenPin.Size = UDim2.new(0, 42, 0, 42)
+greenPin.Position = UDim2.new(1, -30, 1, -30)
+greenPin.BackgroundTransparency = 1
+greenPin.Image = "rbxassetid://13460080362"
+greenPin.Parent = paper
