@@ -1,0 +1,78 @@
+-- SAFE Adopt Me style popup (debugged)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+task.wait(1) -- IMPORTANT
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "GiftPopup"
+gui.ResetOnSpawn = false
+gui.Parent = playerGui
+
+-- Dark background
+local dim = Instance.new("Frame")
+dim.Size = UDim2.new(1,0,1,0)
+dim.BackgroundColor3 = Color3.new(0,0,0)
+dim.BackgroundTransparency = 0.4
+dim.Parent = gui
+
+-- Popup frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0,420,0,230)
+frame.Position = UDim2.new(0.5,0,0.5,0)
+frame.AnchorPoint = Vector2.new(0.5,0.5)
+frame.BackgroundColor3 = Color3.fromRGB(255,249,235)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,18)
+
+-- Text
+local text = Instance.new("TextLabel")
+text.Size = UDim2.new(1,-30,0,90)
+text.Position = UDim2.new(0,15,0,15)
+text.BackgroundTransparency = 1
+text.TextWrapped = true
+text.TextScaled = true
+text.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+text.Font = Enum.Font.GothamBold
+text.TextColor3 = Color3.fromRGB(255,105,180)
+text.Parent = frame
+
+-- Image
+local img = Instance.new("ImageLabel")
+img.Size = UDim2.new(0,90,0,90)
+img.Position = UDim2.new(0.5,0,0.58,0)
+img.AnchorPoint = Vector2.new(0.5,0.5)
+img.BackgroundTransparency = 1
+img.Image = "rbxassetid://7076078876"
+img.Parent = frame
+
+-- Button
+local btn = Instance.new("TextButton")
+btn.Size = UDim2.new(0.6,0,0,44)
+btn.Position = UDim2.new(0.2,0,1,-55)
+btn.BackgroundColor3 = Color3.fromRGB(80,200,120)
+btn.Text = "Okay!"
+btn.TextScaled = true
+btn.Font = Enum.Font.GothamBold
+btn.TextColor3 = Color3.new(1,1,1)
+btn.Parent = frame
+
+Instance.new("UICorner", btn).CornerRadius = UDim.new(0,14)
+
+-- Animation
+frame.Size = UDim2.new(0,0,0,0)
+TweenService:Create(
+	frame,
+	TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Size = UDim2.new(0,420,0,230)}
+):Play()
+
+btn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
