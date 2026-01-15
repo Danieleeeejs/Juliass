@@ -1,0 +1,107 @@
+-- COMPLETE Adopt Me Admin Gift Popup REMAKE (UI ONLY, with blue lines)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+task.wait(1)
+
+-- Bat Dragon images
+local batImages = {
+	"rbxassetid://7076078876",
+	"rbxassetid://10332856121",
+	"rbxassetid://11106454267"
+}
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "AdoptMeGiftPopup"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = playerGui
+
+-- Main popup
+local popup = Instance.new("Frame")
+popup.Size = UDim2.new(0, 430, 0, 220)
+popup.Position = UDim2.new(0.5, 0, 0.5, 0)
+popup.AnchorPoint = Vector2.new(0.5, 0.5)
+popup.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+popup.BorderSizePixel = 0
+popup.Parent = gui
+
+Instance.new("UICorner", popup).CornerRadius = UDim.new(0, 22)
+
+-- Text
+local message = Instance.new("TextLabel")
+message.BackgroundTransparency = 1
+message.Size = UDim2.new(1, -40, 0, 70)
+message.Position = UDim2.new(0, 20, 0, 16)
+message.TextWrapped = true
+message.TextScaled = true
+message.TextXAlignment = Enum.TextXAlignment.Center
+message.TextYAlignment = Enum.TextYAlignment.Center
+message.Font = Enum.Font.GothamBold
+message.TextColor3 = Color3.fromRGB(255, 105, 180)
+message.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+message.Parent = popup
+
+-- 🔵 Blue divider line (under text)
+local topLine = Instance.new("Frame")
+topLine.Size = UDim2.new(0.85, 0, 0, 2)
+topLine.Position = UDim2.new(0.075, 0, 0, 90)
+topLine.BackgroundColor3 = Color3.fromRGB(80, 180, 255)
+topLine.BorderSizePixel = 0
+topLine.Parent = popup
+
+-- Bat Dragon image (under text & line)
+local petImage = Instance.new("ImageLabel")
+petImage.BackgroundTransparency = 1
+petImage.Size = UDim2.new(0, 70, 0, 70)
+petImage.Position = UDim2.new(0.5, 0, 0, 100)
+petImage.AnchorPoint = Vector2.new(0.5, 0)
+petImage.ScaleType = Enum.ScaleType.Fit
+petImage.Image = batImages[math.random(#batImages)]
+petImage.Parent = popup
+
+-- 🔵 Blue divider line (above button)
+local bottomLine = Instance.new("Frame")
+bottomLine.Size = UDim2.new(0.85, 0, 0, 2)
+bottomLine.Position = UDim2.new(0.075, 0, 1, -70)
+bottomLine.BackgroundColor3 = Color3.fromRGB(80, 180, 255)
+bottomLine.BorderSizePixel = 0
+bottomLine.Parent = popup
+
+-- Okay button
+local okButton = Instance.new("TextButton")
+okButton.Size = UDim2.new(0.6, 0, 0, 40)
+okButton.Position = UDim2.new(0.2, 0, 1, -50)
+okButton.BackgroundColor3 = Color3.fromRGB(90, 215, 135)
+okButton.Text = "Okay!"
+okButton.TextScaled = true
+okButton.Font = Enum.Font.GothamBold
+okButton.TextColor3 = Color3.new(1, 1, 1)
+okButton.Parent = popup
+
+Instance.new("UICorner", okButton).CornerRadius = UDim.new(0, 16)
+
+-- Appear animation
+popup.Size = UDim2.new(0, 0, 0, 0)
+TweenService:Create(
+	popup,
+	TweenInfo.new(0.28, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Size = UDim2.new(0, 430, 0, 220)}
+):Play()
+
+-- Close
+okButton.MouseButton1Click:Connect(function()
+	TweenService:Create(
+		popup,
+		TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+		{Size = UDim2.new(0, 0, 0, 0)}
+	):Play()
+
+	task.wait(0.2)
+	gui:Destroy()
+end)
