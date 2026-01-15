@@ -1,0 +1,72 @@
+-- VISUAL Pet Spawner + Fake Inventory (UI ONLY)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.ResetOnSpawn = false
+
+-- Fake inventory counter
+local inventoryCount = 0
+
+-- Inventory badge
+local inv = Instance.new("TextLabel")
+inv.Size = UDim2.new(0, 160, 0, 40)
+inv.Position = UDim2.new(1, -170, 0, 20)
+inv.BackgroundColor3 = Color3.fromRGB(140, 90, 255)
+inv.TextColor3 = Color3.new(1,1,1)
+inv.TextScaled = true
+inv.Font = Enum.Font.GothamBold
+inv.Text = "Inventory: 0"
+inv.Parent = gui
+Instance.new("UICorner", inv).CornerRadius = UDim.new(0, 12)
+
+-- Spawn function (VISUAL ONLY)
+local function spawnPet()
+	inventoryCount += 1
+	inv.Text = "Inventory: "..inventoryCount
+
+	-- Popup frame
+	local frame = Instance.new("Frame", gui)
+	frame.Size = UDim2.new(0, 420, 0, 220)
+	frame.Position = UDim2.new(0.5,0,0.5,0)
+	frame.AnchorPoint = Vector2.new(0.5,0.5)
+	frame.BackgroundColor3 = Color3.fromRGB(245,245,245)
+	Instance.new("UICorner", frame).CornerRadius = UDim.new(0,22)
+
+	-- Text
+	local txt = Instance.new("TextLabel", frame)
+	txt.Size = UDim2.new(1,-40,0,70)
+	txt.Position = UDim2.new(0,20,0,15)
+	txt.BackgroundTransparency = 1
+	txt.TextWrapped = true
+	txt.TextScaled = true
+	txt.Font = Enum.Font.GothamBold
+	txt.TextColor3 = Color3.fromRGB(255,105,180)
+	txt.Text = "Bat Dragon added\nto your inventory!"
+
+	-- Pet image
+	local img = Instance.new("ImageLabel", frame)
+	img.Size = UDim2.new(0,80,0,80)
+	img.Position = UDim2.new(0.5,0,0,95)
+	img.AnchorPoint = Vector2.new(0.5,0)
+	img.BackgroundTransparency = 1
+	img.Image = "rbxassetid://7076078876"
+
+	-- Animate spawn
+	frame.Size = UDim2.new(0,0,0,0)
+	TweenService:Create(
+		frame,
+		TweenInfo.new(0.35, Enum.EasingStyle.Back),
+		{Size = UDim2.new(0,420,0,220)}
+	):Play()
+
+	task.delay(2.5, function()
+		frame:Destroy()
+	end)
+end
+
+-- Auto spawn demo
+task.wait(1.5)
+spawnPet()
