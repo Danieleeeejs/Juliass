@@ -1,0 +1,83 @@
+-- Adopt Me style gift popup (UI replica only)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "AdoptMeGiftPopup"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Background blur feel
+local dim = Instance.new("Frame")
+dim.Size = UDim2.fromScale(1,1)
+dim.BackgroundColor3 = Color3.new(0,0,0)
+dim.BackgroundTransparency = 0.4
+dim.Parent = gui
+
+-- Main popup
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(420,230)
+frame.Position = UDim2.fromScale(0.5,0.5)
+frame.AnchorPoint = Vector2.new(0.5,0.5)
+frame.BackgroundColor3 = Color3.fromRGB(255,249,235)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,18)
+
+-- Message text
+local label = Instance.new("TextLabel")
+label.BackgroundTransparency = 1
+label.Size = UDim2.new(1,-40,0,90)
+label.Position = UDim2.fromOffset(20,18)
+label.TextWrapped = true
+label.TextScaled = true
+label.TextColor3 = Color3.fromRGB(255,120,190)
+label.Font = Enum.Font.FredokaOne
+label.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+label.Parent = frame
+
+-- Pet image
+local pet = Instance.new("ImageLabel")
+pet.BackgroundTransparency = 1
+pet.Size = UDim2.fromOffset(96,96)
+pet.Position = UDim2.fromScale(0.5,0.55)
+pet.AnchorPoint = Vector2.new(0.5,0.5)
+pet.Image = "rbxassetid://7076078876" -- visual only
+pet.Parent = frame
+
+-- OK button
+local ok = Instance.new("TextButton")
+ok.Size = UDim2.new(0.6,0,0,44)
+ok.Position = UDim2.new(0.2,0,1,-58)
+ok.BackgroundColor3 = Color3.fromRGB(80,210,120)
+ok.Text = "Okay!"
+ok.TextScaled = true
+ok.Font = Enum.Font.FredokaOne
+ok.TextColor3 = Color3.new(1,1,1)
+ok.Parent = frame
+
+Instance.new("UICorner", ok).CornerRadius = UDim.new(0,14)
+
+-- Appear animation
+frame.Size = UDim2.fromScale(0,0)
+TweenService:Create(
+	frame,
+	TweenInfo.new(0.35, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Size = UDim2.fromOffset(420,230)}
+):Play()
+
+-- Button close
+ok.MouseButton1Click:Connect(function()
+	TweenService:Create(
+		frame,
+		TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+		{Size = UDim2.fromScale(0,0)}
+	):Play()
+
+	task.wait(0.25)
+	gui:Destroy()
+end)
