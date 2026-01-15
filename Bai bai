@@ -1,0 +1,104 @@
+-- Adopt Me "Admin Gave You" Popup (Photo-Accurate + Multiple Bat Images)
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local ContentProvider = game:GetService("ContentProvider")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+task.wait(1)
+
+-- Bat Dragon image IDs (ALL INCLUDED)
+local batDragonImages = {
+	"rbxassetid://7076078876",
+	"rbxassetid://10332856121",
+	"rbxassetid://11106454267"
+}
+
+-- Preload images
+for _, id in ipairs(batDragonImages) do
+	pcall(function()
+		ContentProvider:PreloadAsync({id})
+	end)
+end
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "AdoptMeGiftPopup"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.Parent = playerGui
+
+-- Main popup frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 420, 0, 220)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 22)
+
+-- Text
+local text = Instance.new("TextLabel")
+text.Size = UDim2.new(1, -40, 0, 70)
+text.Position = UDim2.new(0, 20, 0, 18)
+text.BackgroundTransparency = 1
+text.TextWrapped = true
+text.TextScaled = true
+text.TextXAlignment = Enum.TextXAlignment.Center
+text.TextYAlignment = Enum.TextYAlignment.Center
+text.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+text.Font = Enum.Font.GothamBold
+text.TextColor3 = Color3.fromRGB(255, 105, 180)
+text.Parent = frame
+
+-- Bat Dragon image (under text)
+local petImage = Instance.new("ImageLabel")
+petImage.Size = UDim2.new(0, 70, 0, 70)
+petImage.Position = UDim2.new(0.5, 0, 0, 95)
+petImage.AnchorPoint = Vector2.new(0.5, 0)
+petImage.BackgroundTransparency = 1
+petImage.ScaleType = Enum.ScaleType.Fit
+petImage.Parent = frame
+
+-- Cycle through Bat Dragon images
+task.spawn(function()
+	local index = 1
+	while gui.Parent do
+		petImage.Image = batDragonImages[index]
+		index += 1
+		if index > #batDragonImages then
+			index = 1
+		end
+		task.wait(1.2) -- smooth cycle like Adopt Me
+	end
+end)
+
+-- Okay button
+local okButton = Instance.new("TextButton")
+okButton.Size = UDim2.new(0.6, 0, 0, 42)
+okButton.Position = UDim2.new(0.2, 0, 1, -55)
+okButton.BackgroundColor3 = Color3.fromRGB(90, 215, 135)
+okButton.Text = "Okay!"
+okButton.TextScaled = true
+okButton.Font = Enum.Font.GothamBold
+okButton.TextColor3 = Color3.new(1, 1, 1)
+okButton.Parent = frame
+
+Instance.new("UICorner", okButton).CornerRadius = UDim.new(0, 16)
+
+-- Pop-in animation
+frame.Size = UDim2.new(0, 0, 0, 0)
+TweenService:Create(
+	frame,
+	TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+	{Size = UDim2.new(0, 420, 0, 220)}
+):Play()
+
+-- Close
+okButton.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
