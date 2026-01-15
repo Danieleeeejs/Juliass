@@ -1,0 +1,84 @@
+-- Fake Adopt Me Admin Gift GUI (UI DEMO ONLY)
+
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "FakeAdoptMeAdminGift"
+gui.ResetOnSpawn = false
+gui.Parent = playerGui
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 420, 0, 230)
+frame.Position = UDim2.new(0.5, -210, 0.5, -115)
+frame.BackgroundColor3 = Color3.fromRGB(255, 248, 230)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Visible = false
+
+-- Corner
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = frame
+
+-- Text
+local text = Instance.new("TextLabel")
+text.Size = UDim2.new(1, -40, 0, 80)
+text.Position = UDim2.new(0, 20, 0, 20)
+text.BackgroundTransparency = 1
+text.TextWrapped = true
+text.TextScaled = true
+text.Font = Enum.Font.FredokaOne
+text.TextColor3 = Color3.fromRGB(255, 105, 180)
+text.Text = "An Adopt Me admin\ngave you: Bat Dragon"
+text.Parent = frame
+
+-- Pet Image
+local image = Instance.new("ImageLabel")
+image.Size = UDim2.new(0, 90, 0, 90)
+image.Position = UDim2.new(0.5, -45, 0, 105)
+image.BackgroundTransparency = 1
+image.Image = "rbxassetid://7076078876" -- Bat Dragon image ID (visual only)
+image.Parent = frame
+
+-- OK Button
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0.6, 0, 0, 45)
+button.Position = UDim2.new(0.2, 0, 1, -60)
+button.BackgroundColor3 = Color3.fromRGB(60, 200, 120)
+button.Text = "Okay!"
+button.TextScaled = true
+button.Font = Enum.Font.FredokaOne
+button.TextColor3 = Color3.new(1,1,1)
+button.Parent = frame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 14)
+buttonCorner.Parent = button
+
+-- Show animation
+frame.Visible = true
+frame.Size = UDim2.new(0, 0, 0, 0)
+frame:TweenSize(
+	UDim2.new(0, 420, 0, 230),
+	Enum.EasingDirection.Out,
+	Enum.EasingStyle.Back,
+	0.4,
+	true
+)
+
+-- Button click
+button.MouseButton1Click:Connect(function()
+	frame:TweenSize(
+		UDim2.new(0, 0, 0, 0),
+		Enum.EasingDirection.In,
+		Enum.EasingStyle.Quad,
+		0.3,
+		true
+	)
+	task.wait(0.3)
+	gui:Destroy()
+end)
